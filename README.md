@@ -483,7 +483,7 @@ ninja -j4
 
 <h1 id="author">✍ Author</h1>
 
-Xtate was created by Sharkocha:
+Xtate was created by Alvin Chen:
 
 - email: chenchiyu14@nudt.edu.cn
 
@@ -553,7 +553,7 @@ Or in Chinese:
 
 <h1 id="license">🪪 License</h1>
 
-Copyright (c) 2024 sharkocha
+Copyright (c) 2024 Alvin Chen
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as published by
