@@ -4319,7 +4319,7 @@ void xconf_print_help() {
         "            That's all. " XTATE_NAME_TITLE_CASE
         " contains [%d] global parameters now.\n"
         "            Use them to unleash your power!\n"
-        "                                                       --Sharkocha\n",
+        "                                                       --Alvin Chen\n",
         count);
     printf(XPRINT_STAR_LINE "\n");
     printf("\n\n\n");

@@ -21,7 +21,7 @@
 
     !NOTE: Everytime operate by a link, update it by returned link.
 
-    Create by sharkocha 2024
+    Create by Alvin Chen 2024
 */
 #ifndef DATA_CHAIN_H
 #define DATA_CHAIN_H

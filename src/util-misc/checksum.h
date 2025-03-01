@@ -6,7 +6,7 @@
     License: The MIT License (MIT)
     Dependencies: none
 
-    Modified: sharkocha 2024
+    Modified: Alvin Chen 2024
 */
 #ifndef CHECKSUM_H
 #define CHECKSUM_H

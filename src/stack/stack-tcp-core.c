@@ -60,7 +60,7 @@
  *
  * Born and updated from masscan's tcp stack.
  *
- * Modified and Created by sharkocha 2024.
+ * Modified and Created by Alvin Chen 2024.
  */
 #include "stack-tcp-core.h"
 

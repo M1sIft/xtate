@@ -3,7 +3,7 @@
  * https://github.com/sheredom/utf8.h
  *
  * This version was downloaded on 2024.11.01
- * Modified by sharkocha 2024
+ * Modified by Alvin Chen 2024
  * */
 
 /* This is free and unencumbered software released into the public domain.

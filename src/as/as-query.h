@@ -7,7 +7,7 @@
  *    https://iptoasn.com/data/ip2asn-v4.tsv.gz
  *    https://iptoasn.com/data/ip2asn-v6.tsv.gz
 
-    Create by sharkocha 2024
+    Create by Alvin Chen 2024
  */
 #ifndef AS_QUERY_H
 #define AS_QUERY_H

@@ -1,6 +1,6 @@
 /**
  * Born and updated from Masscan
- * Modified and Created by sharkocha 2024
+ * Modified and Created by Alvin Chen 2024
  */
 #ifndef TARGET_RANGEV4_H
 #define TARGET_RANGEV4_H

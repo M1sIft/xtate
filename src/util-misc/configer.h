@@ -8,7 +8,7 @@
  * - Parm name can carry sub str or int: `-name[2] arg` or `-name[hello] arg`,
  *   this should be further parsed by parse_opt_xxx funcs.
  *
- * Modified and Created by sharkocha 2024
+ * Modified and Created by Alvin Chen 2024
  */
 #ifndef CONFIGER_H
 #define CONFIGER_H

@@ -26,7 +26,7 @@ static unsigned lzr_telnet_handle_response(unsigned th_idx, ProbeTarget *target,
 
     /**
      * simple rule fixed from LZR and ref to nmap
-     * by sharkocha 2024
+     * by Alvin Chen 2024
      */
     if (px[0] == 0xff &&
         (px[1] == 0xfe || px[1] == 0xfd || px[1] == 0xfc || px[1] == 0xfb)) {

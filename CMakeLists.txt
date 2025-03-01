@@ -4,14 +4,14 @@ project(
     LANGUAGES               C
     VERSION                 2.12.4
     DESCRIPTION             "A modular all-stack network scanner for next-generation internet surveys."
-    HOMEPAGE_URL            "https://github.com/sharkocha/xtate"
+    HOMEPAGE_URL            "https://github.com/babycoff/xtate"
     )
 set(PROJECT_NAME_ALL_CAPS   "XTATE")
 set(PROJECT_NAME_TITLE_CASE "Xtate")
-set(PROJECT_AUTHOR          "Sharkocha")
+set(PROJECT_AUTHOR          "Alvin Chen")
 set(PROJECT_CONTACT         "chenchiyu14@nudt.edu.cn")
-set(PROJECT_GITHUB_URL      "https://github.com/sharkocha/xtate")
-set(PROJECT_ISSUES_URL      "https://github.com/sharkocha/xtate/issues")
+set(PROJECT_GITHUB_URL      "https://github.com/babycoff/xtate")
+set(PROJECT_ISSUES_URL      "https://github.com/babycoff/xtate/issues")
 set(PROJECT_CONF_PATH       "/etc/xtate/xtate.conf")
 set(PROJECT_BANNER          "God is Stateless")
 

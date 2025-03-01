@@ -3,7 +3,7 @@
  * I fixed some errors, bugs and done some updates. (So exhausted...)
  * Now it supports multi data exchange after hello over TLS and more functions.
  *
- * Modified and Created by sharkocha 2024
+ * Modified and Created by Alvin Chen 2024
  */
 #ifndef NOT_FOUND_OPENSSL
 

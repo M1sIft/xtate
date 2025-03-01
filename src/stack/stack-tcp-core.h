@@ -1,7 +1,7 @@
 /**
  * Born and updated from masscan's tcp stack.
  *
- * Modified and Created by sharkocha 2024.
+ * Modified and Created by Alvin Chen 2024.
  */
 #ifndef STACK_TCP_CORE_H
 #define STACK_TCP_CORE_H

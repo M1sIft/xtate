@@ -12,7 +12,7 @@
     Datachain was inspired by `banout` of masscan and `fieldset` of zmap, but
     with different purpose, usage and internal code.
 
-    Create by sharkocha 2024
+    Create by Alvin Chen 2024
 */
 #include "data-chain.h"
 

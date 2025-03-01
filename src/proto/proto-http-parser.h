@@ -27,7 +27,7 @@
  * IN THE SOFTWARE.
  *
  *
- * Modified: sharkocha 2024
+ * Modified: Alvin Chen 2024
  */
 
 #ifndef PROTO_HTTP_PARSER_H
