@@ -9,7 +9,7 @@ on:
 
 jobs:
   build:
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
 
     steps:
     - name: Checkout code
@@ -17,22 +17,17 @@ jobs:
 
     - name: Install dependencies
       run: |
-        brew install \
-          libpcap \
-          openssl \
-          pcre2 \
-          libxml2 \
-          lua@5.4 \
-          libbson \
-          mongocxx
-
-    - name: Configure build environment
-      run: |
-        # 添加 OpenSSL 路径（如果需要）
-        echo "OPENSSL_ROOT_DIR=$(brew --prefix openssl)" >> $GITHUB_ENV
-        # 添加其他环境变量（如果需要）
+        sudo apt-get update
+        sudo apt-get install -y \
+          libpcap-dev \
+          libssl-dev \
+          libpcre2-dev \
+          libxml2-dev \
+          liblua5.X-0 \
+          libbson-dev \
+          libmongoc-dev
 
     - name: Build project
       run: |
         chmod +x ./build.sh
-        ./build.sh    
+        ./build.sh 
