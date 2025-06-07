@@ -20,6 +20,7 @@
 #include <stdarg.h>
 #include <assert.h>
 #include <ctype.h>
+#include <stdio.h>
 
 #include "fine-malloc.h"
 #include "safe-string.h"
@@ -105,7 +106,8 @@ DataLink *dach_find_link(DataChain *dach, const char *name) {
 
 /**
  * Create a data link with formatted name and specified capacity(if data type).
- * NOTE: return old pre if the link exists
+ * NOTE: return old pre if the link exists and the va_list `marker` will be
+ * consumed by internal `vsnprintf` func.
  * @return the pre of new link
  */
 static DataLink *_dach_new_link_vprintf(DataChain *dach, size_t data_size,
@@ -432,10 +434,14 @@ DataLink *dach_append_unicode(DataChain *dach, const char *name, unsigned c,
  ***************************************************************************/
 static DataLink *_dach_vprintf(DataLink *link, const char *fmt,
                                va_list marker) {
-    char str[50];
-    int  len;
+    char    str[50];
+    int     len;
+    va_list marker_cpy; // a va_list is consumed when passed to vsnprintf
 
-    len = vsnprintf(str, sizeof(str), fmt, marker);
+    va_copy(marker_cpy, marker);
+    len = vsnprintf(str, sizeof(str), fmt, marker_cpy);
+    va_end(marker_cpy);
+
     if (len > sizeof(str) - 1) {
         char *tmp = MALLOC(len + 1);
         vsnprintf(tmp, len + 1, fmt, marker);
