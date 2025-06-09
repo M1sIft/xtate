@@ -2394,7 +2394,7 @@ static ConfRes SET_usage(void *conf, const char *name, const char *value) {
 
     xconf->op = Op_PrintUsage;
 
-    return Conf_ERR;
+    return Conf_OK;
 }
 
 static ConfRes SET_print_intro(void *conf, const char *name,
