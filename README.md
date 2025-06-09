@@ -517,10 +517,40 @@ And It would be my honored if you cite our papers about Xtate despite my poor ac
 }
 ```
 
+Or simplified short paper version on conference:
+
+```
+@INPROCEEDINGS {10850469,
+author = { Chen, Chiyu and Lu, Yuliang and Yang, Guozheng and Xie, Yi and Guo, Shasha },
+booktitle = { 2024 IEEE International Performance, Computing, and Communications Conference (IPCCC) },
+title = {{ ZBanner: Fast Stateless Scanning Capable of Obtaining Responses over TCP }},
+year = {2024},
+volume = {},
+ISSN = {},
+pages = {1-6},
+keywords = {Protocols;Design methodology;Web and internet services;Buildings;Real-time systems;Maintenance;Internet;Cryptography},
+doi = {10.1109/IPCCC59868.2024.10850469},
+url = {https://doi.ieeecomputersociety.org/10.1109/IPCCC59868.2024.10850469},
+publisher = {IEEE Computer Society},
+address = {Los Alamitos, CA, USA},
+month =Nov}
+
+```
+
 - Efficient Application-Layer Scanning with Hybrid-State Lightweight TCP Stack for TLS-based Service Monitoring
 
 ```
-publishing...
+@INPROCEEDINGS{10946306,
+  author={Chen, Chiyu and Lu, Yuliang and Yang, Guozheng and Xie, Yi and Guo, Shasha},
+  booktitle={2024 IEEE 24th International Conference on Communication Technology (ICCT)}, 
+  title={Efficient Application-Layer Scanning with Hybrid-State Lightweight TCP Stack for TLS-based Service Monitoring}, 
+  year={2024},
+  volume={},
+  number={},
+  pages={2067-2073},
+  keywords={Protocols;Costs;Current measurement;Hardware;Maintenance;Internet;Security;Resource management;Probes;Monitoring;Green Network;Service Monitoring;Internet Measurment},
+  doi={10.1109/ICCT62411.2024.10946306}}
+
 ```
 
 And some of the methods are originated from research points in my master's thesis. There are more detailed descriptions and experiments in the thesis:
