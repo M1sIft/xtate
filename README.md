@@ -170,13 +170,13 @@ Use `xtate --usage` to see the basic usages of xtate.
 But actually you can do much more than these if you know xtate deeply by reading helps.
 
 ```
-usage format:
-  xtate [options] [-ip IPs -p PORTs [-scan SCANMODULE [-probe PROBEMODULE]]]
+typical format for scanning with specified module:
+  xtate [options] -ip IPs [-p PORTs] -scan SCANMODULE [-probe PROBEMODULE]
 
 basic use examples of xtate:
 
-  xtate -p 80,8000-8100 -ip 10.0.0.0/8 --rate 10000
-      use default TcpSyn ScanModule to scan web ports on 10.x.x.x at 10kpps.
+  xtate -p 80,8000-8100 -ip 10.0.0.0/8 -scan tcp-syn -rate 10000
+      use TcpSyn ScanModule to scan web ports on 10.x.x.x at 10kpps.
       
   xtate -p u:80 -ip 10.0.0.0/8 -scan udp -probe echo -show info
       use UdpProbe ScanModule to scan UDP 80 port with echo ProbeModule and also

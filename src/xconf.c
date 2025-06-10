@@ -3956,9 +3956,9 @@ void xconf_print_banner() {
     printf("  Github : " XTATE_GITHUB_URL "\n");
     printf("  Contact: " XTATE_CONTACT "\n");
     printf("\n");
-    printf("usage format with params:\n");
-    printf("  " XTATE_NAME " [options] [-ip IPs -p PORTs [-scan SCANMODULE "
-           "[-probe PROBEMODULE]]]\n");
+    printf("typical format for scanning with specified module:\n");
+    printf("  " XTATE_NAME " [options] -ip IPs [-p PORTs] -scan SCANMODULE "
+           "[-probe PROBEMODULE]\n");
     printf("\n");
     printf("enter interactive mode:");
     printf("  `" XTATE_NAME " -interactive`\n");
@@ -3982,15 +3982,15 @@ void xconf_print_usage() {
     printf("  Github : " XTATE_GITHUB_URL "\n");
     printf("  Contact: " XTATE_CONTACT "\n");
     printf("\n");
-    printf("usage format:\n");
-    printf("  " XTATE_NAME " [options] [-ip IPs -p PORTs [-scan SCANMODULE "
-           "[-probe PROBEMODULE]]]\n");
+    printf("typical format for scanning with specified module:\n");
+    printf("  " XTATE_NAME " [options] -ip IPs [-p PORTs] -scan SCANMODULE "
+           "[-probe PROBEMODULE]\n");
     printf("\n");
     printf("basic use examples of " XTATE_NAME ":\n");
     printf("\n");
-    printf("  " XTATE_NAME " -p 80,8000-8100 -ip 10.0.0.0/8 --rate 10000\n");
-    xprint("use default TcpSyn ScanModule to scan web ports on 10.x.x.x at "
-           "10kpps.\n",
+    printf("  " XTATE_NAME
+           " -p 80,8000-8100 -ip 10.0.0.0/8 -scan tcp-syn -rate 10000\n");
+    xprint("use TcpSyn ScanModule to scan web ports on 10.x.x.x at 10kpps.\n",
            6, 80);
     printf("\n");
     printf("  " XTATE_NAME
