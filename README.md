@@ -577,7 +577,7 @@ Or in Chinese:
 }
 ```
 
-**Well...bad papers and thesis, but wonderful scanner**😜
+**Well...mediocre papers and thesis, but wonderful scanner**😜
 
 <a href="#top">🔝back to top</a>
 
