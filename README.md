@@ -170,13 +170,13 @@ Use `xtate --usage` to see the basic usages of xtate.
 But actually you can do much more than these if you know xtate deeply by reading helps.
 
 ```
-usage format:
-  xtate [options] [-ip IPs -p PORTs [-scan SCANMODULE [-probe PROBEMODULE]]]
+typical format for scanning with specified module:
+  xtate [options] -ip IPs [-p PORTs] -scan SCANMODULE [-probe PROBEMODULE]
 
 basic use examples of xtate:
 
-  xtate -p 80,8000-8100 -ip 10.0.0.0/8 --rate 10000
-      use default TcpSyn ScanModule to scan web ports on 10.x.x.x at 10kpps.
+  xtate -p 80,8000-8100 -ip 10.0.0.0/8 -scan tcp-syn -rate 10000
+      use TcpSyn ScanModule to scan web ports on 10.x.x.x at 10kpps.
       
   xtate -p u:80 -ip 10.0.0.0/8 -scan udp -probe echo -show info
       use UdpProbe ScanModule to scan UDP 80 port with echo ProbeModule and also
@@ -517,10 +517,40 @@ And It would be my honored if you cite our papers about Xtate despite my poor ac
 }
 ```
 
+Or simplified short paper version on conference:
+
+```
+@INPROCEEDINGS {10850469,
+author = { Chen, Chiyu and Lu, Yuliang and Yang, Guozheng and Xie, Yi and Guo, Shasha },
+booktitle = { 2024 IEEE International Performance, Computing, and Communications Conference (IPCCC) },
+title = {{ ZBanner: Fast Stateless Scanning Capable of Obtaining Responses over TCP }},
+year = {2024},
+volume = {},
+ISSN = {},
+pages = {1-6},
+keywords = {Protocols;Design methodology;Web and internet services;Buildings;Real-time systems;Maintenance;Internet;Cryptography},
+doi = {10.1109/IPCCC59868.2024.10850469},
+url = {https://doi.ieeecomputersociety.org/10.1109/IPCCC59868.2024.10850469},
+publisher = {IEEE Computer Society},
+address = {Los Alamitos, CA, USA},
+month =Nov}
+
+```
+
 - Efficient Application-Layer Scanning with Hybrid-State Lightweight TCP Stack for TLS-based Service Monitoring
 
 ```
-publishing...
+@INPROCEEDINGS{10946306,
+  author={Chen, Chiyu and Lu, Yuliang and Yang, Guozheng and Xie, Yi and Guo, Shasha},
+  booktitle={2024 IEEE 24th International Conference on Communication Technology (ICCT)}, 
+  title={Efficient Application-Layer Scanning with Hybrid-State Lightweight TCP Stack for TLS-based Service Monitoring}, 
+  year={2024},
+  volume={},
+  number={},
+  pages={2067-2073},
+  keywords={Protocols;Costs;Current measurement;Hardware;Maintenance;Internet;Security;Resource management;Probes;Monitoring;Green Network;Service Monitoring;Internet Measurment},
+  doi={10.1109/ICCT62411.2024.10946306}}
+
 ```
 
 And some of the methods are originated from research points in my master's thesis. There are more detailed descriptions and experiments in the thesis:
@@ -547,7 +577,7 @@ Or in Chinese:
 }
 ```
 
-**Well...bad papers and thesis, but wonderful scanner**😜
+**Well...mediocre papers and thesis, but wonderful scanner**😜
 
 <a href="#top">🔝back to top</a>
 
