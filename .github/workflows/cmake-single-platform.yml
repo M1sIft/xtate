@@ -39,6 +39,8 @@ jobs:
         if [ -f "build.sh" ]; then
           chmod +x build.sh
           ./build.sh
+          chmod +x /bin/xtate
+          ./bin/xtate --version
         elif [ -f "CMakeLists.txt" ]; then
           cmake -B build -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++
           cmake --build build
