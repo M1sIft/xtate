@@ -1,0 +1,250 @@
+name: XTate CMake Build on Multiple Platforms
+
+on:
+  push:
+    branches: [ "xtate", "main", "master" ]
+  pull_request:
+    branches: [ "xtate", "main", "master" ]
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+
+      matrix:
+        os: [ubuntu-latest, ubuntu-20.04]
+        build_type: [Release, Debug]
+        c_compiler: [gcc, clang]
+        lua_version: ['5.1', '5.2', '5.3', '5.4']
+        include:
+          - os: ubuntu-latest
+            c_compiler: gcc
+            cpp_compiler: g++
+          - os: ubuntu-latest
+            c_compiler: clang
+            cpp_compiler: clang++
+          - os: ubuntu-20.04
+            c_compiler: gcc
+            cpp_compiler: g++
+          - os: ubuntu-20.04
+            c_compiler: clang
+            cpp_compiler: clang++
+
+    steps:
+    - name: Checkout XTate repository
+      uses: actions/checkout@v4
+      with:
+        repository: babycoff/xtate
+        path: xtate
+
+    - name: Setup Clang (if using clang)
+      if: matrix.c_compiler == 'clang'
+      uses: egor-tensin/setup-clang@v1
+      with:
+        version: latest
+
+    - name: Install system dependencies (Ubuntu)
+      if: runner.os == 'Linux'
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y \
+          build-essential \
+          cmake \
+          pkg-config \
+          git \
+          make
+
+    - name: Install XTate dependencies (Ubuntu)
+      if: runner.os == 'Linux'
+      run: |
+        sudo apt-get install -y \
+          libpcap-dev \
+          libssl-dev \
+          libpcre2-dev \
+          libxml2-dev \
+          liblua${{ matrix.lua_version }}-dev \
+          libbson-dev \
+          libmongoc-dev
+
+    - name: Verify dependencies
+      if: runner.os == 'Linux'
+      run: |
+        echo "=== Dependency Check ==="
+        pkg-config --exists libpcap && echo "✓ libpcap found" || echo "✗ libpcap missing"
+        pkg-config --exists openssl && echo "✓ openssl found" || echo "✗ openssl missing"
+        pkg-config --exists libpcre2-8 && echo "✓ libpcre2 found" || echo "✗ libpcre2 missing"
+        pkg-config --exists libxml-2.0 && echo "✓ libxml2 found" || echo "✗ libxml2 missing"
+        pkg-config --exists lua${{ matrix.lua_version }} && echo "✓ lua${{ matrix.lua_version }} found" || echo "✗ lua${{ matrix.lua_version }} missing"
+        pkg-config --exists libbson-1.0 && echo "✓ libbson found" || echo "✗ libbson missing"
+        pkg-config --exists libmongoc-1.0 && echo "✓ libmongoc found" || echo "✗ libmongoc missing"
+        echo "=== Compiler Check ==="
+        ${{ matrix.c_compiler }} --version
+        ${{ matrix.cpp_compiler }} --version
+
+    - name: Set reusable strings
+      id: strings
+      shell: bash
+      run: |
+        echo "build-output-dir=${{ github.workspace }}/xtate/build" >> "$GITHUB_OUTPUT"
+
+    - name: Change to XTate directory
+      run: |
+        cd xtate
+        echo "Current directory: $(pwd)"
+        echo "Directory contents:"
+        ls -la
+
+    - name: Check build system
+      run: |
+        cd xtate
+        if [ -f "CMakeLists.txt" ]; then
+          echo "✓ CMakeLists.txt found - using CMake build"
+          echo "BUILD_SYSTEM=cmake" >> $GITHUB_ENV
+        elif [ -f "build.sh" ]; then
+          echo "✓ build.sh found - using custom build script"
+          echo "BUILD_SYSTEM=custom" >> $GITHUB_ENV
+          chmod +x build.sh
+        elif [ -f "Makefile" ]; then
+          echo "✓ Makefile found - using Make build"
+          echo "BUILD_SYSTEM=make" >> $GITHUB_ENV
+        else
+          echo "✗ No recognized build system found"
+          echo "Available files:"
+          ls -la
+          exit 1
+        fi
+
+    - name: Configure CMake (if CMake project)
+      if: env.BUILD_SYSTEM == 'cmake'
+      working-directory: xtate
+      run: >
+        cmake -B ${{ steps.strings.outputs.build-output-dir }}
+        -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }}
+        -DCMAKE_C_COMPILER=${{ matrix.c_compiler }}
+        -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+        -DLUA_VERSION=${{ matrix.lua_version }}
+        -S ${{ github.workspace }}/xtate
+
+    - name: Build with CMake (if CMake project)
+      if: env.BUILD_SYSTEM == 'cmake'
+      run: cmake --build ${{ steps.strings.outputs.build-output-dir }} --config ${{ matrix.build_type }}
+
+    - name: Build with custom script (if build.sh exists)
+      if: env.BUILD_SYSTEM == 'custom'
+      working-directory: xtate
+      run: |
+        export CC=${{ matrix.c_compiler }}
+        export CXX=${{ matrix.cpp_compiler }}
+        export BUILD_TYPE=${{ matrix.build_type }}
+        export LUA_VERSION=${{ matrix.lua_version }}
+        echo "Building with CC=$CC, CXX=$CXX, BUILD_TYPE=$BUILD_TYPE"
+        ./build.sh
+
+    - name: Build with Make (if Makefile exists)
+      if: env.BUILD_SYSTEM == 'make'
+      working-directory: xtate
+      run: |
+        export CC=${{ matrix.c_compiler }}
+        export CXX=${{ matrix.cpp_compiler }}
+        make CC=${{ matrix.c_compiler }} CXX=${{ matrix.cpp_compiler }}
+
+    - name: Test with CTest (if CMake project)
+      if: env.BUILD_SYSTEM == 'cmake'
+      working-directory: ${{ steps.strings.outputs.build-output-dir }}
+      run: ctest --build-config ${{ matrix.build_type }} --verbose
+      continue-on-error: true
+
+    - name: Run custom tests (if available)
+      working-directory: xtate
+      run: |
+        if [ -f "test.sh" ]; then
+          echo "Running custom test script..."
+          chmod +x test.sh
+          ./test.sh
+        elif [ -f "tests/run_tests.sh" ]; then
+          echo "Running tests from tests directory..."
+          chmod +x tests/run_tests.sh
+          ./tests/run_tests.sh
+        elif [ -d "tests" ] && [ -f "tests/Makefile" ]; then
+          echo "Running make tests..."
+          cd tests && make test
+        else
+          echo "No test script found, checking for executable..."
+          # 查找可能的可执行文件进行基本测试
+          find . -name "xtate" -type f -executable | head -1 | while read exe; do
+            echo "Found executable: $exe"
+            if [ -x "$exe" ]; then
+              echo "Testing executable..."
+              $exe --help || $exe -h || echo "Executable exists but no help available"
+            fi
+          done
+        fi
+      continue-on-error: true
+
+    - name: Collect build artifacts
+      run: |
+        cd xtate
+        echo "=== Build Artifacts ==="
+        find . -name "*.so" -o -name "*.a" -o -name "xtate" -o -name "*.bin" -o -name "*.exe" | head -20
+        
+        # 创建artifacts目录
+        mkdir -p artifacts
+        
+        # 复制主要构建产物
+        find . -name "xtate" -type f -executable -exec cp {} artifacts/ \; 2>/dev/null || true
+        find . -name "*.so" -exec cp {} artifacts/ \; 2>/dev/null || true
+        find . -name "*.a" -exec cp {} artifacts/ \; 2>/dev/null || true
+        
+        # 复制构建目录（如果存在）
+        if [ -d "build" ]; then
+          cp -r build artifacts/ 2>/dev/null || true
+        fi
+        
+        # 复制可能的输出目录
+        for dir in bin lib dist output; do
+          if [ -d "$dir" ]; then
+            cp -r "$dir" artifacts/ 2>/dev/null || true
+          fi
+        done
+        
+        echo "Artifacts collected:"
+        ls -la artifacts/ || echo "No artifacts directory created"
+
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: xtate-${{ matrix.os }}-${{ matrix.c_compiler }}-${{ matrix.build_type }}-lua${{ matrix.lua_version }}
+        path: |
+          xtate/artifacts/
+          xtate/build/
+          xtate/bin/
+          xtate/lib/
+          xtate/dist/
+          xtate/output/
+        retention-days: 7
+        if-no-files-found: warn
+
+    - name: Performance and size report
+      run: |
+        cd xtate
+        echo "=== Build Summary ==="
+        echo "OS: ${{ matrix.os }}"
+        echo "Compiler: ${{ matrix.c_compiler }}"
+        echo "Build Type: ${{ matrix.build_type }}"
+        echo "Lua Version: ${{ matrix.lua_version }}"
+        
+        # 查找主要可执行文件并显示信息
+        find . -name "xtate" -type f -executable | head -1 | while read exe; do
+          if [ -f "$exe" ]; then
+            echo "=== Executable Info ==="
+            echo "File: $exe"
+            echo "Size: $(du -h "$exe" | cut -f1)"
+            echo "Type: $(file "$exe")"
+            if command -v ldd >/dev/null 2>&1; then
+              echo "Dependencies:"
+              ldd "$exe" | head -10 || echo "Static binary or ldd failed"
+            fi
+          fi
+        done
